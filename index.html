@@ -1,201 +1,351 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Ms Thao English Portal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-          },
-          colors: {
-            forest: {
-              darkest: '#021208',
-              dark: '#0a2f17',
-              light: '#164e29',
-              neon: '#22c55e'
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Ms Thao English Portal</title>
+    <style>
+        /* Reset CSS cơ bản và Font chữ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-      }
-    }
-  </script>
-  <style>
-    body {
-      background-color: #021208;
-      background-image: radial-gradient(circle at 50% -20%, #164e29 0%, #021208 60%);
-    }
-  </style>
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Nền Gradient nhẹ nhàng trắng - xanh bạc hà */
+            background: linear-gradient(180deg, #FFFFFF 0%, #E8F5E9 100%);
+            padding: 20px;
+        }
+
+        /* Khung bo bên ngoài (Card) */
+        .login-card {
+            background-color: #FFFFFF;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        /* Tiêu đề trung tâm */
+        .title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1b5e20; /* Xanh lá đậm thương hiệu */
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #666666;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        /* Thanh chuyển đổi đối tượng (Học sinh / Giáo viên / Quản trị) */
+        .tab-container {
+            display: flex;
+            background-color: #F5F5F5;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 25px;
+            border: 1px solid #E0E0E0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #757575;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        /* Trạng thái Tab đang được chọn */
+        .tab.active {
+            background-color: #C8E6C9; 
+            color: #1b5e20; 
+        }
+
+        /* Hộp hiển thị thông báo lỗi */
+        .error-box {
+            display: none;
+            background-color: #FFEBEE;
+            border: 1px solid #FFCDD2;
+            color: #C62828;
+            font-size: 13px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        /* Cấu trúc các ô nhập liệu */
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #2E7D32; 
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        /* Định dạng chung cho Ô nhập văn bản và Ô chọn thả xuống */
+        .input-field, .select-field {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 14px;
+            border: 1.5px solid #2E7D32; 
+            border-radius: 10px;
+            color: #333333;
+            background-color: #FFFFFF;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        /* Ẩn cấu trúc hiển thị để dùng form riêng biệt */
+        .hidden {
+            display: none;
+        }
+
+        /* Thiết kế mũi tên tùy chỉnh cho ô Select tiện cho phụ huynh bấm */
+        .select-field {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232E7D32' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .select-field:disabled {
+            background-color: #F5F5F5;
+            border-color: #BDBDBD;
+            color: #9E9E9E;
+            cursor: not-allowed;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239E9E9E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        }
+
+        .input-field::placeholder {
+            color: #9E9E9E;
+        }
+
+        .input-field:focus, .select-field:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+        }
+
+        /* Nút Đăng nhập / Vào cổng */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #FFFFFF;
+            background-color: #4CAF50; 
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #388E3C;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.99);
+        }
+
+        /* Gợi ý nhỏ bên dưới giúp phụ huynh dễ nhớ */
+        .hint-text {
+            font-size: 11px;
+            color: #666666;
+            margin-top: 5px;
+            display: block;
+            font-style: italic;
+        }
+
+        /* Bản quyền ở chân trang */
+        .footer-text {
+            font-size: 11px;
+            color: #999999;
+            margin-top: 30px;
+        }
+    </style>
 </head>
-<body class="font-sans text-slate-200 min-h-screen flex items-center justify-center p-4">
+<body>
 
-  <div class="w-full max-w-md bg-[#051a0c]/80 backdrop-blur-xl border border-forest-light/30 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
-    <div class="absolute -top-10 -right-10 w-32 height-32 bg-forest-neon/10 rounded-full blur-3xl"></div>
-    
-    <div class="text-center mb-8">
-      <h1 class="text-2xl font-extrabold text-white tracking-tight mb-2">Ms Thao English</h1>
-      <p class="text-sm text-slate-400">Welcome to the Digital Learning Portal</p>
+    <div class="login-card">
+        <h1 class="title">Ms Thao English</h1>
+        <p class="subtitle">Cổng Thông Tin Học Tập Trực Tuyến</p>
+
+        <div class="tab-container">
+            <div id="tab-student" class="tab active" onclick="switchRole('student')">Học sinh</div>
+            <div id="tab-teacher" class="tab" onclick="switchRole('teacher')">Giáo viên</div>
+            <div id="tab-admin" class="tab" onclick="switchRole('admin')">Quản trị</div>
+        </div>
+
+        <div id="error-box" class="error-box"></div>
+
+        <form id="form-student" onsubmit="handleLogin(event, 'student')">
+            <div class="form-group">
+                <label class="label">Bước 1: Chọn lớp của con</label>
+                <select id="student-class" class="select-field" onchange="loadStudentNames()" required>
+                    <option value="" disabled selected>-- Bấm vào đây để chọn lớp --</option>
+                    <option value="C001">HAPPY</option>
+                    <option value="C002">LỚP 7</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Bước 2: Chọn họ và tên của con</label>
+                <select id="student-name" class="select-field" disabled required>
+                    <option value="" disabled selected>-- Vui lòng chọn lớp trước --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Bước 3: Nhập mã PIN (Mật khẩu)</label>
+                <input type="password" id="student-pin" class="input-field" placeholder="Nhập 4 số mật khẩu" required maxlength="6">
+                <span class="hint-text">* Mật khẩu mặc định hệ thống là: 8888</span>
+            </div>
+
+            <button type="submit" class="submit-btn">Vào Làm Bài Tập</button>
+        </form>
+
+        <form id="form-staff" class="hidden" onsubmit="handleLogin(event, 'staff')">
+            <div class="form-group">
+                <label id="label-username" class="label">Tài khoản quản lý</label>
+                <input type="text" id="staff-user" placeholder="Nhập tên tài khoản hoặc email" required class="input-field">
+            </div>
+
+            <div class="form-group">
+                <label class="label">Mật khẩu hệ thống</label>
+                <input type="password" id="staff-pass" placeholder="Nhập mật khẩu bảo mật" required class="input-field">
+            </div>
+
+            <button type="submit" class="submit-btn">Xác Minh Hệ Thống</button>
+        </form>
+
+        <p class="footer-text">© 2026 Ms Thao English Portal. Bảo lưu mọi quyền.</p>
     </div>
 
-    <div class="flex bg-forest-darkest p-1 rounded-xl mb-6 border border-forest-light/20">
-      <button onclick="switchRole('student')" id="tab-student" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-white bg-forest-light/60 shadow-sm">
-        Student
-      </button>
-      <button onclick="switchRole('teacher')" id="tab-teacher" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
-        Teacher
-      </button>
-      <button onclick="switchRole('admin')" id="tab-admin" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
-        Admin
-      </button>
-    </div>
+    <script>
+        // Dữ liệu học sinh danh sách mẫu (Sau này liên kết trực tiếp bằng API Google Sheets)
+        const mockStudents = {
+            "C001": ["Vy", "Nguyễn Gia Bảo", "Minh Anh", "Thanh Trúc"], // Học sinh lớp HAPPY
+            "C002": ["Nam", "Diệp My", "Hoàng Long", "Tuấn Kiệt"]       // Học sinh lớp LỚP 7
+        };
 
-    <div id="error-box" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl text-center">
-      Incorrect password. Please try again!
-    </div>
+        let currentRole = 'student';
 
-    <form id="form-student" onsubmit="handleLogin(event, 'student')" class="space-y-5">
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Select Your Class</label>
-        <select id="student-class" onchange="loadStudentNames()" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all appearance-none cursor-pointer">
-          <option value="" disabled selected>-- Choose your class --</option>
-          <option value="C001">HAPPY</option>
-          <option value="C002">LỚP 7</option>
-        </select>
-      </div>
+        // 1. Hàm chuyển đổi giữa các Tab Phân Quyền
+        function switchRole(role) {
+            currentRole = role;
+            document.getElementById('error-box').style.display = 'none';
+            
+            // Đặt lại trạng thái mờ cho tất cả các tab
+            ['student', 'teacher', 'admin'].forEach(r => {
+                document.getElementById(`tab-${r}`).classList.remove('active');
+            });
 
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Select Your Name</label>
-        <select id="student-name" disabled required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
-          <option value="" disabled selected>-- Select Class First --</option>
-        </select>
-      </div>
+            // Kích hoạt sáng màu cho tab vừa bấm
+            document.getElementById(`tab-${role}`).classList.add('active');
 
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Password (PIN)</label>
-        <input type="password" id="student-pin" placeholder="••••" maxlength="6" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white tracking-widest focus:outline-none focus:border-forest-neon transition-all">
-      </div>
-
-      <button type="submit" class="w-full bg-forest-neon hover:bg-green-600 text-forest-darkest font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-forest-neon/20 transition-all duration-300 transform hover:-translate-y-0.5">
-        Enter Portal
-      </button>
-    </form>
-
-
-    <form id="form-staff" onsubmit="handleLogin(event, 'staff')" class="hidden space-y-5">
-      <div>
-        <label id="label-username" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Username / Email</label>
-        <input type="text" id="staff-user" placeholder="Enter your account" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all">
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Password</label>
-        <input type="password" id="staff-pass" placeholder="••••••••" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all">
-      </div>
-
-      <button type="submit" class="w-full bg-forest-neon hover:bg-green-600 text-forest-darkest font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-forest-neon/20 transition-all duration-300 transform hover:-translate-y-0.5">
-        Verify Account
-      </button>
-    </form>
-
-    <p class="text-center text-xs text-slate-600 mt-8">&copy; 2026 Ms Thao English Portal. All rights reserved.</p>
-  </div>
-
-  <script>
-    // Dữ liệu học viên giả lập để test giao diện trước khi nối API Sheets xịn
-    const mockStudents = {
-      "C001": ["Vy", "Nguyễn Gia Bảo", "Minh Anh"], // Lớp HAPPY
-      "C002": ["Nam", "Diệp My", "Hoàng Long"]       // Lớp LỚP 7
-    };
-
-    let currentRole = 'student';
-
-    // 1. Chuyển đổi qua lại giữa các Phân quyền (Tabs)
-    function switchRole(role) {
-      currentRole = role;
-      document.getElementById('error-box').classList.add('hidden');
-      
-      // Reset CSS các nút Tab
-      ['student', 'teacher', 'admin'].forEach(r => {
-        const tab = document.getElementById(`tab-${r}`);
-        tab.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
-      });
-
-      // Kích hoạt màu Tab được chọn
-      document.getElementById(`tab-${role}`).className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-white bg-forest-light/60 shadow-sm";
-
-      // Đổi Form hiển thị
-      if (role === 'student') {
-        document.getElementById('form-student').classList.remove('hidden');
-        document.getElementById('form-staff').classList.add('hidden');
-      } else {
-        document.getElementById('form-student').classList.add('hidden');
-        document.getElementById('form-staff').classList.remove('hidden');
-        // Đổi nhãn chữ cho phù hợp vai trò Giáo viên / Admin
-        document.getElementById('label-username').innerText = role === 'teacher' ? 'Teacher Email' : 'Admin Account';
-      }
-    }
-
-    // 2. Logic tự động lọc và nạp tên Học sinh khi chọn Lớp
-    function loadStudentNames() {
-      const classId = document.getElementById('student-class').value;
-      const nameSelect = document.getElementById('student-name');
-      
-      // Xóa các tên cũ
-      nameSelect.innerHTML = '<option value="" disabled selected>-- Choose your name --</option>';
-      
-      if (classId && mockStudents[classId]) {
-        nameSelect.disabled = false;
-        mockStudents[classId].forEach(name => {
-          const option = document.createElement('option');
-          option.value = name;
-          option.innerText = name;
-          option.className = "bg-forest-darkest text-white";
-          nameSelect.appendChild(option);
-        });
-      } else {
-        nameSelect.disabled = true;
-      }
-    }
-
-    // 3. Logic Xử lý sự kiện bấm Đăng nhập (Xử lý mật mã mặc định 8888)
-    function handleLogin(event, type) {
-      event.preventDefault();
-      const errorBox = document.getElementById('error-box');
-      errorBox.classList.add('hidden');
-
-      if (type === 'student') {
-        const pin = document.getElementById('student-pin').value;
-        const className = document.getElementById('student-class').options[document.getElementById('student-class').selectedIndex].text;
-        const studentName = document.getElementById('student-name').value;
-
-        // Check mã PIN mặc định 8888
-        if (pin === '8888') {
-          alert(`[SUCCESS] Student Login!\nName: ${studentName}\nClass: ${className}\n\n-> Chuyển hướng học sinh sang màn hình làm bài...`);
-          // Sau này nối hệ thống sẽ dùng: window.location.href = `student.html?name=${studentName}&class=${className}`;
-        } else {
-          errorBox.innerText = "Incorrect PIN code. Default is 8888!";
-          errorBox.classList.remove('hidden');
+            // Ẩn/Hiện form tương ứng
+            if (role === 'student') {
+                document.getElementById('form-student').classList.remove('hidden');
+                document.getElementById('form-staff').classList.add('hidden');
+            } else {
+                document.getElementById('form-student').classList.add('hidden');
+                document.getElementById('form-staff').classList.remove('hidden');
+                
+                // Thay đổi nhãn chữ động phù hợp với Giáo viên hoặc Admin
+                const labelUser = document.getElementById('label-username');
+                if (role === 'teacher') {
+                    labelUser.innerText = "Tài khoản Giáo viên (Email)";
+                } else {
+                    labelUser.innerText = "Tài khoản Quản trị viên (Admin)";
+                }
+            }
         }
-      } else {
-        // Xử lý tạm thời cho Giáo viên và Admin để test UI
-        const user = document.getElementById('staff-user').value;
-        const pass = document.getElementById('staff-pass').value;
 
-        if (pass === '8888') {
-          alert(`[SUCCESS] Deployed as ${currentRole.toUpperCase()}!\nAccount: ${user}\n\n-> Chuyển hướng vào trang quản trị...`);
-        } else {
-          errorBox.innerText = "Incorrect account password. Use 8888 to test!";
-          errorBox.classList.remove('hidden');
+        // 2. Hàm tự động đổ danh sách Tên khi Phụ huynh chọn Lớp
+        function loadStudentNames() {
+            const classId = document.getElementById('student-class').value;
+            const nameSelect = document.getElementById('student-name');
+            
+            // Xóa sạch dữ liệu tên cũ
+            nameSelect.innerHTML = '<option value="" disabled selected>-- Bấm vào đây để chọn tên con --</option>';
+            
+            if (classId && mockStudents[classId]) {
+                nameSelect.disabled = false; // Mở khóa ô chọn tên
+                
+                // Duyệt qua mảng học sinh để tạo các ô lựa chọn mới
+                mockStudents[classId].forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.innerText = name;
+                    nameSelect.appendChild(option);
+                });
+            } else {
+                nameSelect.disabled = true;
+            }
         }
-      }
-    }
-  </script>
+
+        // 3. Hàm kiểm tra điều kiện Đăng nhập khi bấm Nút
+        function handleLogin(event, type) {
+            event.preventDefault(); // Ngăn trang bị tải lại
+            const errorBox = document.getElementById('error-box');
+            errorBox.style.display = 'none';
+
+            if (type === 'student') {
+                const pin = document.getElementById('student-pin').value;
+                const className = document.getElementById('student-class').options[document.getElementById('student-class').selectedIndex].text;
+                const studentName = document.getElementById('student-name').value;
+
+                // Kiểm tra mã PIN mặc định 8888
+                if (pin === '8888') {
+                    alert(`Đăng nhập thành công!\nHọc sinh: ${studentName}\nLớp học: ${className}\nHệ thống đang chuyển hướng con vào phòng làm bài thi...`);
+                    // Sau này nối hệ thống thật: window.location.href = `student-dashboard.html?name=${encodeURIComponent(studentName)}&class=${encodeURIComponent(className)}`;
+                } else {
+                    errorBox.innerText = "Mã PIN (Mật khẩu) chưa chính xác. Vui lòng nhập đúng số 8888 để đăng nhập!";
+                    errorBox.style.display = 'block';
+                }
+            } else {
+                const user = document.getElementById('staff-user').value;
+                const pass = document.getElementById('staff-pass').value;
+
+                // Kiểm tra mật mã thử nghiệm cho giáo viên và admin
+                if (pass === '8888') {
+                    alert(`Đăng nhập thành công với quyền: ${currentRole === 'teacher' ? 'GIÁO VIÊN' : 'QUẢN TRỊ VIÊN'}\nTài khoản: ${user}\nĐang mở bảng điều khiển...`);
+                } else {
+                    errorBox.innerText = "Mật khẩu hệ thống không đúng. Vui lòng thử lại!";
+                    errorBox.style.display = 'block';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
