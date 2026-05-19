@@ -4,63 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bảng điều khiển Giáo viên | Ms Thao English</title>
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap)" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: linear-gradient(180deg, #FFFFFF 0%, #E8F5E9 100%); min-height: 100vh; padding: 30px 20px; color: #333333; }
-        .container { width: 100%; max-width: 600px; margin: 0 auto; }
-        .header-bar { background-color: #FFFFFF; border-radius: 16px; padding: 20px 25px; box-shadow: 0 10px 30px rgba(27, 94, 32, 0.03); display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-left: 5px solid #2E7D32; }
-        .header-bar h2 { font-size: 18px; color: #1b5e20; font-weight: 800; }
-        .logout-btn { background-color: #F5F5F5; color: #666666; border: 1px solid #E0E0E0; padding: 8px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-        .form-card { background-color: #FFFFFF; border-radius: 20px; padding: 35px 30px; box-shadow: 0 10px 30px rgba(27, 94, 32, 0.05); }
-        .form-title { font-size: 20px; font-weight: 800; color: #1b5e20; margin-bottom: 20px; text-align: center; }
-        .form-group { text-align: left; margin-bottom: 20px; }
-        .label { display: block; font-size: 11px; font-weight: 800; color: #2E7D32; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
-        .input-field, .select-field { width: 100%; padding: 13px 15px; font-size: 14px; font-weight: 500; border: 1.5px solid #2E7D32; border-radius: 12px; color: #333333; background-color: #FFFFFF; outline: none; transition: all 0.3s; }
-        .select-field { appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 24 24' fill='none' stroke='%232E7D32' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 15px center; background-size: 16px; cursor: pointer; }
-        .input-field:focus, .select-field:focus { border-color: #4CAF50; box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15); }
-        .submit-btn { width: 100%; padding: 15px; font-size: 15px; font-weight: 700; color: #FFFFFF; background-color: #2E7D32; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2); margin-top: 10px; }
-        .submit-btn:hover { background-color: #1b5e20; }
-        .submit-btn:disabled { background-color: #A5D6A7; cursor: not-allowed; box-shadow: none; }
-    </style>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <div class="container">
-        <div class="header-bar">
-            <h2>Giao diện Giáo viên: Ms Thao 👩‍🏫</h2>
-            <button class="logout-btn" onclick="location.href='index.html'">Đăng xuất</button>
+<body class="font-sans min-h-screen p-4 md:p-8" style="background: linear-gradient(180deg, #FFFFFF 0%, #E8F5E9 100%);">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl p-5 shadow-sm border-l-4 border-green-700 flex justify-between items-center mb-6">
+            <div>
+                <h2 class="text-lg font-extrabold text-green-900">Giao diện Giáo viên: Ms Thao 👩‍🏫</h2>
+                <p class="text-xs text-gray-500 font-medium">Hệ thống đồng bộ dữ liệu Real-time</p>
+            </div>
+            <button onclick="location.href='index.html'" class="bg-gray-100 hover:bg-gray-200 text-gray-600 border border-gray-200 px-4 py-2 text-xs font-bold rounded-xl transition-all">
+                Đăng xuất
+            </button>
         </div>
-        <div class="form-card">
-            <h3 class="form-title">Hệ Thống Tạo Đề Thi Với Gemini AI</h3>
-            <form id="form-create-exam" onsubmit="handleCreateExam(event)">
-                <div class="form-group">
-                    <label class="label">Tên bài kiểm tra / Tên đề thi</label>
-                    <input type="text" id="exam-title" placeholder="Ví dụ: Đề kiểm tra từ vựng Tuần 1" required class="input-field">
+
+        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-gray-100">
+            <h3 class="text-xl font-extrabold text-green-900 text-center mb-6">Hệ Thống Tạo Đề Thi Với Gemini AI</h3>
+            
+            <form id="form-create-exam" onsubmit="handleCreateExam(event)" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Tên bài kiểm tra / Tên đề thi</label>
+                    <input type="text" id="exam-title" placeholder="Ví dụ: Đề kiểm tra từ vựng Tuần 1" required 
+                           class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all">
                 </div>
-                <div class="form-group">
-                    <label class="label">Giao cho lớp học nào</label>
-                    <select id="exam-class" class="select-field" required>
-                        <option value="" disabled selected>Đang tải danh sách lớp từ hệ thống...</option>
-                    </select>
+
+                <div>
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Giao cho lớp học nào</label>
+                    <div class="relative">
+                        <select id="exam-class" required 
+                                class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none appearance-none cursor-pointer focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all">
+                            <option value="" disabled selected>Đang tải danh sách lớp từ hệ thống...</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-green-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="label">Thời gian làm bài (Số phút)</label>
-                    <input type="number" id="exam-duration" placeholder="Ví dụ: 15, 45, 60" min="1" required class="input-field">
+
+                <div>
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Thời gian làm bài (Số phút)</label>
+                    <input type="number" id="exam-duration" placeholder="Ví dụ: 15, 45, 60" min="1" required 
+                           class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all">
                 </div>
-                <div class="form-group">
-                    <label class="label">Tải file tài liệu chứa câu hỏi (PDF / DOCX)</label>
-                    <input type="file" id="exam-file" accept=".pdf,.docx" class="input-field" required>
+
+                <div>
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Tải file tài liệu chứa câu hỏi (PDF / DOCX)</label>
+                    <input type="file" id="exam-file" accept=".pdf,.docx" required 
+                           class="w-full px-4 py-2.5 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-500 outline-none file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 cursor-pointer">
                 </div>
-                <button type="submit" id="btn-submit" class="submit-btn">Kích Hoạt AI & Giao Bài Tập</button>
+
+                <button type="submit" id="btn-submit" 
+                        class="w-full py-4 text-sm font-extrabold text-white bg-green-700 hover:bg-green-800 border-0 rounded-xl shadow-lg shadow-green-700/20 transition-all duration-300 transform active:scale-[0.99]">
+                    Kích Hoạt AI & Giao Bài Tập
+                </button>
             </form>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = '[https://script.google.com/macros/s/AKfycbzHIBPyPZMSVjpOl9yt8LerjMvulbOe8xH-6YW3r9USnueCdh6iNnbWzcqOnCnyEKlEdw/exec](https://script.google.com/macros/s/AKfycbzHIBPyPZMSVjpOl9yt8LerjMvulbOe8xH-6YW3r9USnueCdh6iNnbWzcqOnCnyEKlEdw/exec)';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHIBPyPZMSVjpOl9yt8LerjMvulbOe8xH-6YW3r9USnueCdh6iNnbWzcqOnCnyEKlEdw/exec';
 
+        // Tự động load danh sách lớp
         window.addEventListener('DOMContentLoaded', () => {
             fetch(`${SCRIPT_URL}?action=init`)
                 .then(res => res.json())
@@ -69,11 +90,15 @@
                     classSelect.innerHTML = '<option value="" disabled selected>-- Chọn lớp nhận đề thi --</option>';
                     data.classes.forEach(c => {
                         const option = document.createElement('option');
-                        option.value = c.id; option.innerText = c.name;
+                        option.value = c.id; 
+                        option.innerText = c.name;
                         classSelect.appendChild(option);
                     });
                 })
-                .catch(() => alert("Lỗi kết nối đồng bộ danh mục lớp học!"));
+                .catch((err) => {
+                    console.error(err);
+                    alert("Lỗi kết nối đồng bộ danh mục lớp học!");
+                });
         });
 
         function handleCreateExam(event) {
@@ -92,7 +117,6 @@
             const file = fileInput.files[0];
             const reader = new FileReader();
             
-            // Chuyển file thành chuỗi Base64 gửi lên hệ thống ngầm xử lý
             reader.onload = function(e) {
                 const base64Data = e.target.result.split(',')[1];
                 const payload = {
