@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Reset CSS cơ bản và áp dụng Font chữ mới */
         * {
             margin: 0;
             padding: 0;
@@ -23,23 +22,21 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Nền Gradient nhẹ nhàng trắng - xanh bạc hà */
+            /* Nền Gradient nhẹ nhàng thanh lịch */
             background: linear-gradient(180deg, #FFFFFF 0%, #E8F5E9 100%);
             padding: 20px;
         }
 
-        /* Khung bo bên ngoài (Card) */
         .login-card {
             background-color: #FFFFFF;
             width: 100%;
             max-width: 420px;
-            border-radius: 20px; /* Bo góc mềm mại hơn */
+            border-radius: 20px;
             padding: 40px 30px;
-            box-shadow: 0 10px 30px rgba(27, 94, 32, 0.05); /* Đổ bóng ánh xanh nhẹ */
+            box-shadow: 0 10px 30px rgba(27, 94, 32, 0.05);
             text-align: center;
         }
 
-        /* Tên Trung Tâm */
         .title {
             font-size: 26px;
             font-weight: 800;
@@ -55,7 +52,6 @@
             font-weight: 500;
         }
 
-        /* Thanh chuyển đổi đối tượng (Học sinh / Giáo viên / Quản trị) */
         .tab-container {
             display: flex;
             background-color: #F5F5F5;
@@ -69,20 +65,18 @@
             flex: 1;
             padding: 11px 0;
             font-size: 14px;
-            font-weight: 700; /* Đậm nét font mới */
+            font-weight: 700;
             color: #757575;
             cursor: pointer;
             border-radius: 9px;
             transition: all 0.3s ease;
         }
 
-        /* Trạng thái Tab đang được chọn */
         .tab.active {
             background-color: #C8E6C9; 
             color: #1b5e20; 
         }
 
-        /* Hộp hiển thị thông báo lỗi */
         .error-box {
             display: none;
             background-color: #FFEBEE;
@@ -96,7 +90,6 @@
             font-weight: 600;
         }
 
-        /* Cấu trúc các ô nhập liệu */
         .form-group {
             text-align: left;
             margin-bottom: 20px;
@@ -105,14 +98,13 @@
         .label {
             display: block;
             font-size: 11px;
-            font-weight: 800; /* Tăng độ đậm tiêu đề trường */
+            font-weight: 800; 
             color: #2E7D32; 
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 7px;
         }
 
-        /* Định dạng chung cho Ô nhập văn bản và Ô chọn thả xuống */
         .input-field, .select-field {
             width: 100%;
             padding: 13px 15px;
@@ -130,7 +122,6 @@
             display: none;
         }
 
-        /* Thiết kế mũi tên tùy chỉnh cho ô Select */
         .select-field {
             appearance: none;
             -webkit-appearance: none;
@@ -159,7 +150,6 @@
             box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
         }
 
-        /* Nút Đăng nhập / Vào cổng */
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -177,14 +167,8 @@
 
         .submit-btn:hover {
             background-color: #388E3C;
-            transform: translateY(-1px);
         }
 
-        .submit-btn:active {
-            transform: scale(0.99);
-        }
-
-        /* Gợi ý nhỏ bên dưới */
         .hint-text {
             font-size: 11px;
             color: #666666;
@@ -193,7 +177,6 @@
             font-style: italic;
         }
 
-        /* Bản quyền ở chân trang */
         .footer-text {
             font-size: 11px;
             color: #999999;
@@ -220,5 +203,140 @@
             <div class="form-group">
                 <label class="label">Bước 1: Chọn lớp của con</label>
                 <select id="student-class" class="select-field" onchange="loadStudentNames()" required>
-                    <option value="" disabled selected>-- Bấm vào đây để chọn lớp --</option>
-                    <option value="C001">HAPPY</
+                    <option value="" disabled selected>Đang kết nối cơ sở dữ liệu...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Bước 2: Chọn họ và tên của con</label>
+                <select id="student-name" class="select-field" disabled required>
+                    <option value="" disabled selected>-- Vui lòng chọn lớp trước --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="label">Bước 3: Nhập mật khẩu (Mã PIN)</label>
+                <input type="password" id="student-pin" class="input-field" placeholder="Nhập mật khẩu" required>
+                <span class="hint-text">* Mật khẩu xem trên cột Password của lớp</span>
+            </div>
+
+            <button type="submit" class="submit-btn">Vào Làm Bài Tập</button>
+        </form>
+
+        <form id="form-staff" class="hidden" onsubmit="handleLogin(event, 'staff')">
+            <div class="form-group">
+                <label id="label-username" class="label">Tài khoản quản lý</label>
+                <input type="text" id="staff-user" placeholder="Nhập tên tài khoản hoặc email" required class="input-field">
+            </div>
+            <div class="form-group">
+                <label class="label">Mật khẩu hệ thống</label>
+                <input type="password" id="staff-pass" placeholder="Nhập mật khẩu bảo mật" required class="input-field">
+            </div>
+            <button type="submit" class="submit-btn">Xác Minh Hệ Thống</button>
+        </form>
+
+        <p class="footer-text">© 2026 Ms Thao English Portal. Bảo lưu mọi quyền.</p>
+    </div>
+
+    <script>
+        // Đã thay link Web App Apps Script xịn của bạn vào đây thành công!
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHIBPyPZMSVjpOl9yt8LerjMvulbOe8xH-6YW3r9USnueCdh6iNnbWzcqOnCnyEKlEdw/exec';
+
+        let sheetData = { classes: [], students: {} };
+        let currentRole = 'student';
+
+        // Tự động kéo dữ liệu từ file Google Sheets của bạn khi phụ huynh load trang web
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch(`${SCRIPT_URL}?action=init`)
+                .then(res => res.json())
+                .then(data => {
+                    sheetData = data;
+                    const classSelect = document.getElementById('student-class');
+                    classSelect.innerHTML = '<option value="" disabled selected>-- Bấm vào đây để chọn lớp --</option>';
+                    
+                    sheetData.classes.forEach(c => {
+                        const option = document.createElement('option');
+                        option.value = c.id; // Lưu Class ID (C01, C02...)
+                        option.innerText = c.name; // Hiện tên lớp trực quan (Windy, Jolly...)
+                        classSelect.appendChild(option);
+                    });
+                })
+                .catch(() => {
+                    showError("Không thể kết nối tới Google Sheet. Hãy kiểm tra lại cấu hình Apps Script hoặc mạng internet!");
+                });
+        });
+
+        function switchRole(role) {
+            currentRole = role;
+            document.getElementById('error-box').style.display = 'none';
+            ['student', 'teacher', 'admin'].forEach(r => document.getElementById(`tab-${r}`).classList.remove('active'));
+            document.getElementById(`tab-${role}`).classList.add('active');
+
+            if (role === 'student') {
+                document.getElementById('form-student').classList.remove('hidden');
+                document.getElementById('form-staff').classList.add('hidden');
+            } else {
+                document.getElementById('form-student').classList.add('hidden');
+                document.getElementById('form-staff').classList.remove('hidden');
+                document.getElementById('label-username').innerText = role === 'teacher' ? "Tài khoản Giáo viên" : "Tài khoản Quản trị";
+            }
+        }
+
+        // Tự động lọc danh sách tên học sinh theo Class ID (C01, C02...) thật từ Sheet
+        function loadStudentNames() {
+            const classId = document.getElementById('student-class').value;
+            const nameSelect = document.getElementById('student-name');
+            nameSelect.innerHTML = '<option value="" disabled selected>-- Bấm vào đây để chọn tên con --</option>';
+            
+            if (classId && sheetData.students[classId]) {
+                nameSelect.disabled = false;
+                sheetData.students[classId].forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.innerText = name;
+                    nameSelect.appendChild(option);
+                });
+            } else {
+                nameSelect.disabled = true;
+            }
+        }
+
+        function handleLogin(event, type) {
+            event.preventDefault();
+            document.getElementById('error-box').style.display = 'none';
+
+            if (type === 'student') {
+                const classId = document.getElementById('student-class').value;
+                const studentName = document.getElementById('student-name').value;
+                const pin = document.getElementById('student-pin').value;
+
+                // Gửi thông tin đăng nhập lên Google Sheet để xác thực bảo mật real-time
+                fetch(`${SCRIPT_URL}?action=login&classId=${classId}&studentName=${encodeURIComponent(studentName)}&password=${encodeURIComponent(pin)}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.success) {
+                            alert(`Đăng nhập thành công!\nHọc sinh: ${studentName}\nMã học viên: ${res.studentId}\n\nHệ thống đang kết nối vào phòng thi bài tập...`);
+                            // Sau này chuyển màn hình: window.location.href = `exam-room.html?id=${res.studentId}`;
+                        } else {
+                            showError(res.message);
+                        }
+                    })
+                    .catch(() => showError("Lỗi kết nối xác thực dữ liệu đăng nhập!"));
+            } else {
+                // Xác thực tài khoản giáo viên/admin tạm thời bằng 8888 để kiểm tra UI
+                if (document.getElementById('staff-pass').value === '8888') {
+                    alert(`Chào mừng Giáo viên / Admin quay trở lại hệ thống điều hành!`);
+                } else {
+                    showError("Mật khẩu quản trị cấp cao không chính xác!");
+                }
+            }
+        }
+
+        function showError(msg) {
+            const box = document.getElementById('error-box');
+            box.innerText = msg;
+            box.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
