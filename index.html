@@ -144,9 +144,16 @@
                     .then(res => res.json())
                     .then(res => {
                         if (res.success) {
-                            const className = document.getElementById('student-class').options[document.getElementById('student-class').selectedIndex].text;
-                            window.location.href = `dashboard.html?classId=${classId}&name=${encodeURIComponent(studentName)}&className=${encodeURIComponent(className)}`;
-                        } else { showError(res.message); }
+    const classSelect = document.getElementById('select-class');
+    const classNameText = classSelect.options[classSelect.selectedIndex].text; // Lấy tên lớp chữ thật
+
+    // Bắn link sang dashboard.html kèm theo đầy đủ 4 linh hồn dữ liệu
+    window.location.href = "student.html" +
+        "?classId=" + classId +
+        "&studentId=" + res.studentId + // Lấy mã ID thật từ server trả về
+        "&studentName=" + encodeURIComponent(studentName) + // Đổi thành studentName
+        "&className=" + encodeURIComponent(classNameText);
+} else { showError(res.message); }
                     })
                     .catch(() => showError("Lỗi kết nối xác thực dữ liệu!"));
             } else {
