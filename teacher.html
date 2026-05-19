@@ -27,7 +27,7 @@
     <div class="w-full max-w-2xl mx-auto">
         <div class="bg-white rounded-2xl p-5 shadow-sm border-l-4 border-green-700 flex justify-between items-center mb-6">
             <div>
-                <h2 class="text-lg font-extrabold text-green-900">Giao diện Giáo viên: Ms Thao English</h2>
+                <h2 class="text-lg font-extrabold text-green-900">Giao diện Giáo viên Ms Thao English</h2>
                 <p class="text-xs text-gray-500 font-medium">Hệ thống đồng bộ dữ liệu Real-time</p>
             </div>
             <button onclick="location.href='index.html'" class="bg-gray-100 hover:bg-gray-200 text-gray-600 border border-gray-200 px-4 py-2 text-xs font-bold rounded-xl transition-all">
@@ -65,8 +65,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Số lượng câu hỏi muốn lấy từ file</label>
-                    <input type="number" id="exam-count" placeholder="Ví dụ: 10, 20, 42 (Để trống nếu muốn lấy hết)" min="1" 
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Phạm vi câu hỏi muốn lấy từ file (Range / Prompt)</label>
+                    <input type="text" id="exam-range" placeholder="Ví dụ: Từ câu 5 đến câu 20 / Từ câu 1-15 và bài viết số 2..." required
                            class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all">
                 </div>
 
@@ -111,13 +111,13 @@
             const examTitle = document.getElementById('exam-title').value;
             const classId = document.getElementById('exam-class').value;
             const duration = document.getElementById('exam-duration').value;
-            const questionCount = document.getElementById('exam-count').value || "tất cả"; // Bốc giá trị số câu hỏi
+            const examRange = document.getElementById('exam-range').value; // Bốc chuỗi text định vị phạm vi
             const fileInput = document.getElementById('exam-file');
             
             if (fileInput.files.length === 0) { alert("Vui lòng chọn file đề thi gốc!"); return; }
             
             btnSubmit.disabled = true;
-            btnSubmit.innerText = "Gemini AI đang bóc tách đúng " + questionCount + " câu hỏi...";
+            btnSubmit.innerText = "Gemini AI đang lọc câu hỏi theo yêu cầu...";
 
             const file = fileInput.files[0];
             const reader = new FileReader();
@@ -129,7 +129,7 @@
                     examTitle: examTitle,
                     classId: classId,
                     duration: duration,
-                    questionCount: questionCount, // Nạp vào gói gửi lên Server
+                    questionRange: examRange, // Đóng gói chuỗi chỉ định gửi đi
                     fileName: file.name,
                     fileMimeType: file.type,
                     fileData: base64Data
@@ -139,7 +139,7 @@
                 .then(res => res.json())
                 .then(res => {
                     if (res.success) {
-                        alert(`[THÀNH CÔNG] Đã lọc lấy đúng số lượng câu hỏi yêu cầu!\nĐề thi số hiệu ${res.examId} đã lưu vào folder riêng MTE_Canvas_Exams trên Drive.`);
+                        alert(`[THÀNH CÔNG] Đề thi số hiệu ${res.examId} đã được lọc đúng phạm vi câu hỏi và lưu vào folder MTE_Canvas_Exams.`);
                         document.getElementById('form-create-exam').reset();
                     } else { alert("Lỗi xử lý từ hệ thống: " + res.message); }
                 })
