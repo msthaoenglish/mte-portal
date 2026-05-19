@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Ms Thao English Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            forest: {
+              darkest: '#021208',
+              dark: '#0a2f17',
+              light: '#164e29',
+              neon: '#22c55e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #021208;
+      background-image: radial-gradient(circle at 50% -20%, #164e29 0%, #021208 60%);
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-200 min-h-screen flex items-center justify-center p-4">
+
+  <div class="w-full max-w-md bg-[#051a0c]/80 backdrop-blur-xl border border-forest-light/30 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+    <div class="absolute -top-10 -right-10 w-32 height-32 bg-forest-neon/10 rounded-full blur-3xl"></div>
+    
+    <div class="text-center mb-8">
+      <h1 class="text-2xl font-extrabold text-white tracking-tight mb-2">Ms Thao English</h1>
+      <p class="text-sm text-slate-400">Welcome to the Digital Learning Portal</p>
+    </div>
+
+    <div class="flex bg-forest-darkest p-1 rounded-xl mb-6 border border-forest-light/20">
+      <button onclick="switchRole('student')" id="tab-student" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-white bg-forest-light/60 shadow-sm">
+        Student
+      </button>
+      <button onclick="switchRole('teacher')" id="tab-teacher" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
+        Teacher
+      </button>
+      <button onclick="switchRole('admin')" id="tab-admin" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
+        Admin
+      </button>
+    </div>
+
+    <div id="error-box" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl text-center">
+      Incorrect password. Please try again!
+    </div>
+
+    <form id="form-student" onsubmit="handleLogin(event, 'student')" class="space-y-5">
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Select Your Class</label>
+        <select id="student-class" onchange="loadStudentNames()" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all appearance-none cursor-pointer">
+          <option value="" disabled selected>-- Choose your class --</option>
+          <option value="C001">HAPPY</option>
+          <option value="C002">LỚP 7</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Select Your Name</label>
+        <select id="student-name" disabled required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+          <option value="" disabled selected>-- Select Class First --</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Password (PIN)</label>
+        <input type="password" id="student-pin" placeholder="••••" maxlength="6" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white tracking-widest focus:outline-none focus:border-forest-neon transition-all">
+      </div>
+
+      <button type="submit" class="w-full bg-forest-neon hover:bg-green-600 text-forest-darkest font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-forest-neon/20 transition-all duration-300 transform hover:-translate-y-0.5">
+        Enter Portal
+      </button>
+    </form>
+
+
+    <form id="form-staff" onsubmit="handleLogin(event, 'staff')" class="hidden space-y-5">
+      <div>
+        <label id="label-username" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Username / Email</label>
+        <input type="text" id="staff-user" placeholder="Enter your account" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all">
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Password</label>
+        <input type="password" id="staff-pass" placeholder="••••••••" required class="w-full bg-forest-darkest border border-forest-light/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-forest-neon transition-all">
+      </div>
+
+      <button type="submit" class="w-full bg-forest-neon hover:bg-green-600 text-forest-darkest font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-forest-neon/20 transition-all duration-300 transform hover:-translate-y-0.5">
+        Verify Account
+      </button>
+    </form>
+
+    <p class="text-center text-xs text-slate-600 mt-8">&copy; 2026 Ms Thao English Portal. All rights reserved.</p>
+  </div>
+
+  <script>
+    // Dữ liệu học viên giả lập để test giao diện trước khi nối API Sheets xịn
+    const mockStudents = {
+      "C001": ["Vy", "Nguyễn Gia Bảo", "Minh Anh"], // Lớp HAPPY
+      "C002": ["Nam", "Diệp My", "Hoàng Long"]       // Lớp LỚP 7
+    };
+
+    let currentRole = 'student';
+
+    // 1. Chuyển đổi qua lại giữa các Phân quyền (Tabs)
+    function switchRole(role) {
+      currentRole = role;
+      document.getElementById('error-box').classList.add('hidden');
+      
+      // Reset CSS các nút Tab
+      ['student', 'teacher', 'admin'].forEach(r => {
+        const tab = document.getElementById(`tab-${r}`);
+        tab.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
+      });
+
+      // Kích hoạt màu Tab được chọn
+      document.getElementById(`tab-${role}`).className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 text-white bg-forest-light/60 shadow-sm";
+
+      // Đổi Form hiển thị
+      if (role === 'student') {
+        document.getElementById('form-student').classList.remove('hidden');
+        document.getElementById('form-staff').classList.add('hidden');
+      } else {
+        document.getElementById('form-student').classList.add('hidden');
+        document.getElementById('form-staff').classList.remove('hidden');
+        // Đổi nhãn chữ cho phù hợp vai trò Giáo viên / Admin
+        document.getElementById('label-username').innerText = role === 'teacher' ? 'Teacher Email' : 'Admin Account';
+      }
+    }
+
+    // 2. Logic tự động lọc và nạp tên Học sinh khi chọn Lớp
+    function loadStudentNames() {
+      const classId = document.getElementById('student-class').value;
+      const nameSelect = document.getElementById('student-name');
+      
+      // Xóa các tên cũ
+      nameSelect.innerHTML = '<option value="" disabled selected>-- Choose your name --</option>';
+      
+      if (classId && mockStudents[classId]) {
+        nameSelect.disabled = false;
+        mockStudents[classId].forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.innerText = name;
+          option.className = "bg-forest-darkest text-white";
+          nameSelect.appendChild(option);
+        });
+      } else {
+        nameSelect.disabled = true;
+      }
+    }
+
+    // 3. Logic Xử lý sự kiện bấm Đăng nhập (Xử lý mật mã mặc định 8888)
+    function handleLogin(event, type) {
+      event.preventDefault();
+      const errorBox = document.getElementById('error-box');
+      errorBox.classList.add('hidden');
+
+      if (type === 'student') {
+        const pin = document.getElementById('student-pin').value;
+        const className = document.getElementById('student-class').options[document.getElementById('student-class').selectedIndex].text;
+        const studentName = document.getElementById('student-name').value;
+
+        // Check mã PIN mặc định 8888
+        if (pin === '8888') {
+          alert(`[SUCCESS] Student Login!\nName: ${studentName}\nClass: ${className}\n\n-> Chuyển hướng học sinh sang màn hình làm bài...`);
+          // Sau này nối hệ thống sẽ dùng: window.location.href = `student.html?name=${studentName}&class=${className}`;
+        } else {
+          errorBox.innerText = "Incorrect PIN code. Default is 8888!";
+          errorBox.classList.remove('hidden');
+        }
+      } else {
+        // Xử lý tạm thời cho Giáo viên và Admin để test UI
+        const user = document.getElementById('staff-user').value;
+        const pass = document.getElementById('staff-pass').value;
+
+        if (pass === '8888') {
+          alert(`[SUCCESS] Deployed as ${currentRole.toUpperCase()}!\nAccount: ${user}\n\n-> Chuyển hướng vào trang quản trị...`);
+        } else {
+          errorBox.innerText = "Incorrect account password. Use 8888 to test!";
+          errorBox.classList.remove('hidden');
+        }
+      }
+    }
+  </script>
+</body>
+</html>
