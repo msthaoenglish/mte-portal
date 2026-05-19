@@ -11,142 +11,100 @@
     <script>
         tailwind.config = { theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } } }
     </script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 </head>
 <body class="font-sans min-h-screen p-4 md:p-8" style="background: linear-gradient(180deg, #FFFFFF 0%, #E8F5E9 100%);">
 
     <div class="w-full max-w-2xl mx-auto">
         <div class="bg-white rounded-2xl p-5 shadow-sm border-l-4 border-green-700 flex justify-between items-center mb-6">
             <div>
-                <h2 class="text-lg font-extrabold text-green-900">Giao diện Giáo viên Ms Thao English</h2>
-                <p class="text-xs text-gray-500 font-medium">Hệ thống tạo đề bằng AI trực tiếp</p>
+                <h2 class="text-lg font-extrabold text-green-900">Giao diện Giáo viên: Ms Thao 👩‍🏫</h2>
+                <p class="text-xs text-gray-500 font-medium">Cổng đồng bộ đề thi Canvas trực tiếp vào Sheet</p>
             </div>
             <button onclick="location.href='index.html'" class="bg-gray-100 hover:bg-gray-200 text-gray-600 border border-gray-200 px-4 py-2 text-xs font-bold rounded-xl transition-all">Đăng xuất</button>
         </div>
 
         <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-gray-100">
-            <h3 class="text-xl font-extrabold text-green-900 text-center mb-6">Hệ Thống Tạo Đề Siêu Tốc</h3>
+            <h3 class="text-xl font-extrabold text-green-900 text-center mb-6">ĐĂNG KÝ ĐỀ THI LÊN HỆ THỐNG</h3>
             
             <form id="form-create-exam" onsubmit="handleCreateExam(event)" class="space-y-5">
                 <div>
-                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Tên bài kiểm tra / Tên đề thi</label>
-                    <input type="text" id="exam-title" placeholder="Ví dụ: Đề kiểm tra từ vựng Tuần 1" required class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none focus:border-green-500 transition-all">
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Tên bài kiểm tra / Tên đề thi hiển thị</label>
+                    <input type="text" id="exam-title" placeholder="Ví dụ: Global Success 6 - Unit 3: Test 01" required 
+                           class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none focus:border-green-500 transition-all">
                 </div>
 
                 <div>
                     <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Giao cho lớp học nào</label>
                     <select id="exam-class" required class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none cursor-pointer">
-                        <option value="" disabled selected>Đang tải danh sách lớp...</option>
+                        <option value="" disabled selected>Đang tải danh sách lớp từ hệ thống...</option>
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Thời gian (Số phút)</label>
-                        <input type="number" id="exam-duration" placeholder="Ví dụ: 45" min="1" required class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Phạm vi câu hỏi (Range)</label>
-                        <input type="text" id="exam-range" placeholder="Ví dụ: Từ câu 1 đến câu 15" required class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none">
-                    </div>
+                <div>
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Thời gian làm bài (Số phút)</label>
+                    <input type="number" id="exam-duration" placeholder="Ví dụ: 45" min="1" required class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none">
                 </div>
 
-                <div class="border-t border-dashed border-gray-200 pt-4">
-                    <span class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Chọn 1 trong 2 cách nạp đề thi dưới đây:</span>
-                    
-                    <div class="space-y-3">
-                        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <label class="block text-xs font-bold text-gray-700 mb-1">Cách A: Tải file Word trực tiếp (.docx)</label>
-                            <input type="file" id="exam-file" accept=".docx" class="w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-green-50 file:text-green-700 cursor-pointer">
-                        </div>
-                        
-                        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <label class="block text-xs font-bold text-gray-700 mb-1">Cách B: Hoặc dán chữ vào đây (Dành cho PDF lỗi hoặc copy nhanh)</label>
-                            <textarea id="exam-content" rows="4" placeholder="Nếu không upload file Word, bạn có thể mở file đề lên bôi đen copy rồi dán chữ vào đây..." class="w-full px-3 py-2 text-xs font-medium border border-gray-300 rounded-lg bg-white outline-none font-mono"></textarea>
-                        </div>
-                    </div>
+                <div>
+                    <label class="block text-xs font-extrabold text-green-800 uppercase tracking-wider mb-2">Đường link File hoặc Mã ID file HTML trên Google Drive</label>
+                    <input type="text" id="exam-file-id" placeholder="Dán link chia sẻ file Drive hoặc chỉ điền mã ID file vào đây..." required 
+                           class="w-full px-4 py-3 text-sm font-medium border-2 border-green-700 rounded-xl bg-white text-gray-800 outline-none focus:border-green-500 transition-all font-mono">
+                    <p class="text-[11px] text-gray-400 mt-1 italic">*Lưu ý: Nhớ bật chế độ 'Bất kỳ ai có liên kết đều có thể xem' cho file HTML đó trên Drive nhé má!</p>
                 </div>
 
-                <button type="submit" id="btn-submit" class="w-full py-4 text-sm font-extrabold text-white bg-green-700 hover:bg-green-800 rounded-xl shadow-lg transition-all transform active:scale-[0.99]">
-                    Kích Hoạt AI & Giao Bài Tập
+                <button type="submit" id="btn-submit" class="w-full py-4 text-sm font-extrabold text-white bg-green-700 hover:bg-green-800 rounded-xl shadow-lg transition-all transform active:scale-[0.99] flex items-center justify-center space-x-2">
+                    <span>ĐỒNG BỘ ĐỀ THI LÊN SHEET TỔNG</span>
                 </button>
             </form>
         </div>
     </div>
 
     <script>
-        // ĐIỀN LINK WEB APP KẾT THÚC BẰNG /exec CỦA BẠN VÀO ĐÂY
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzv0MFXlHRzH1aozfKHndn3b5lqdlmqizoT8hY-GWRGts_ey0FnVr6oqzt5XZQbSmfUqg/exec';
+        // 🌟 MÁ ĐIỀN ĐƯỜNG LINK WEB APP SCRIPT ĐUÔI /exec CỦA MÁ VÀO ĐÂY:
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw63PY3IZSvKnD0LpM8XaA_Lm8wixUeGEGhUIp6I2e3DZ3zrM2URarvT1Az8L_WKZ3asQ/exec';
 
+        // Tự động tải danh sách lớp từ tab Classes lên form khi vừa mở trang
         window.addEventListener('DOMContentLoaded', () => {
             fetch(`${SCRIPT_URL}?action=init`)
                 .then(res => res.json())
                 .then(data => {
                     const classSelect = document.getElementById('exam-class');
-                    classSelect.innerHTML = '<option value="" disabled selected>-- Chọn lớp nhận đề thi --</option>';
+                    classSelect.innerHTML = '<option value="" disabled selected>-- Chọn lớp nhận bài thi này --</option>';
                     data.classes.forEach(c => {
                         const option = document.createElement('option'); option.value = c.id; option.innerText = c.name;
                         classSelect.appendChild(option);
                     });
-                }).catch(() => alert("Lỗi đồng bộ dữ liệu lớp học!"));
+                }).catch(() => alert("Lỗi kết nối đồng bộ danh sách lớp!"));
         });
 
-        async function handleCreateExam(event) {
+        // Xử lý gửi dữ liệu khi má bấm nút nộp form
+        function handleCreateExam(event) {
             event.preventDefault();
             const btnSubmit = document.getElementById('btn-submit');
-            const fileInput = document.getElementById('exam-file');
-            const textAreaInput = document.getElementById('exam-content');
-            
-            let finalContent = textAreaInput.value.trim();
-
-            // Nếu giáo viên có chọn file Word, ta dùng ma thuật Mammoth đọc chữ luôn tại trình duyệt
-            if (fileInput.files.length > 0) {
-                btnSubmit.disabled = true;
-                btnSubmit.innerText = "Đang đọc cấu trúc file Word...";
-                try {
-                    const arrayBuffer = await fileInput.files[0].arrayBuffer();
-                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                    finalContent = result.value; // Chữ thô UTF-8 siêu sạch đã được bóc ra thành công!
-                } catch (err) {
-                    alert("Lỗi đọc file Word: " + err.message);
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerText = "Kích Hoạt AI & Giao Bài Tập";
-                    return;
-                }
-            }
-
-            if (!finalContent) {
-                alert("Vui lòng chọn 1 file Word hoặc dán nội dung chữ của đề thi vào khung tương ứng!");
-                btnSubmit.disabled = false;
-                btnSubmit.innerText = "Kích Hoạt AI & Giao Bài Tập";
-                return;
-            }
             
             btnSubmit.disabled = true;
-            btnSubmit.innerText = "Gemini AI đang lập trình đề thi Canvas...";
+            btnSubmit.innerText = "Đang đồng bộ dữ liệu về file Sheet...";
 
             const payload = {
                 action: "createExam",
                 examTitle: document.getElementById('exam-title').value,
                 classId: document.getElementById('exam-class').value,
                 duration: document.getElementById('exam-duration').value,
-                questionRange: document.getElementById('exam-range').value,
-                examContent: finalContent
+                driveFileId: document.getElementById('exam-file-id').value
             };
 
             fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) })
             .then(res => res.json())
             .then(res => {
                 if (res.success) {
-                    alert(`[THÀNH CÔNG] Đề thi đã được tạo hoàn tất và lưu vào folder MTE_Canvas_Exams!`);
+                    alert(`[THÀNH CÔNG RỰC RỠ] Đề thi đã được ghi nhận tự động vào dòng cuối cùng của tab Exams với Mã Đề: ${res.examId}! Học sinh đã có thể vào phòng thi.`);
                     document.getElementById('form-create-exam').reset();
-                } else { alert("Lỗi: " + res.message); }
+                } else { alert("Có lỗi xảy ra từ máy chủ Google!"); }
             })
-            .catch(() => alert("Lỗi kết nối server!"))
+            .catch(() => alert("Lỗi đường truyền Internet!"))
             .finally(() => {
                 btnSubmit.disabled = false;
-                btnSubmit.innerText = "Kích Hoạt AI & Giao Bài Tập";
+                btnSubmit.innerText = "ĐỒNG BỘ ĐỀ THI LÊN SHEET TỔNG";
             });
         }
     </script>
