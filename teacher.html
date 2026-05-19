@@ -85,7 +85,8 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHIBPyPZMSVjpOl9yt8LerjMvulbOe8xH-6YW3r9USnueCdh6iNnbWzcqOnCnyEKlEdw/exec';
+        // ĐIỀN ĐÚNG ĐƯỜNG LINK WEB APP APPS SCRIPT CỦA BẠN VÀO ĐÂY
+        const SCRIPT_URL = 'THAY_LINK_WEB_APP_APPS_SCRIPT_CỦA_BẠN_VÀO_ĐÂY';
 
         window.addEventListener('DOMContentLoaded', () => {
             fetch(`${SCRIPT_URL}?action=init`)
@@ -111,17 +112,23 @@
             const examTitle = document.getElementById('exam-title').value;
             const classId = document.getElementById('exam-class').value;
             const duration = document.getElementById('exam-duration').value;
-            const examRange = document.getElementById('exam-range').value; // Bốc chuỗi text định vị phạm vi
+            const examRange = document.getElementById('exam-range').value;
             const fileInput = document.getElementById('exam-file');
             
             if (fileInput.files.length === 0) { alert("Vui lòng chọn file đề thi gốc!"); return; }
             
+            const file = fileInput.files[0];
+            
+            // 🌟 TẤM KHIÊN BẢO VỆ: NGĂN CHẶN CHỌN NHẦM FILE GDOC NGAY TRÊN TRÌNH DUYỆT
+            if (file.type === "application/vnd.google-apps.document" || file.name.toLowerCase().endsWith('.gdoc')) {
+                alert("⚠️ PHÁT HIỆN CHỌN NHẦM FILE GOOGLE DOCS MÁY TÍNH!\n\nBạn đang chọn một file shortcut (lối tắt) từ thư mục Google Drive trên máy tính. File này chỉ là một cái link chứ không chứa dữ liệu câu hỏi thực tế nên AI không thể đọc được.\n\nCách khắc phục siêu nhanh:\n1. Bạn mở file Google Docs đó lên bằng trình duyệt web.\n2. Bấm vào Tệp (File) -> Tải xuống (Download) -> Chọn Microsoft Word (.docx).\n3. Hãy lấy file .docx vừa tải về máy để upload lên đây là hệ thống chạy mượt mà ngay lập tức!");
+                return;
+            }
+            
             btnSubmit.disabled = true;
             btnSubmit.innerText = "Gemini AI đang lọc câu hỏi theo yêu cầu...";
 
-            const file = fileInput.files[0];
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 const base64Data = e.target.result.split(',')[1];
                 const payload = {
@@ -129,7 +136,7 @@
                     examTitle: examTitle,
                     classId: classId,
                     duration: duration,
-                    questionRange: examRange, // Đóng gói chuỗi chỉ định gửi đi
+                    questionRange: examRange,
                     fileName: file.name,
                     fileMimeType: file.type,
                     fileData: base64Data
