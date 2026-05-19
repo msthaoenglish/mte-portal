@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập | Ms Thao English Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* Reset CSS cơ bản và Font chữ */
+        /* Reset CSS cơ bản và áp dụng Font chữ mới */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
@@ -28,17 +33,17 @@
             background-color: #FFFFFF;
             width: 100%;
             max-width: 420px;
-            border-radius: 16px;
+            border-radius: 20px; /* Bo góc mềm mại hơn */
             padding: 40px 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(27, 94, 32, 0.05); /* Đổ bóng ánh xanh nhẹ */
             text-align: center;
         }
 
-        /* Tiêu đề trung tâm */
+        /* Tên Trung Tâm */
         .title {
             font-size: 26px;
             font-weight: 800;
-            color: #1b5e20; /* Xanh lá đậm thương hiệu */
+            color: #1b5e20; 
             margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
@@ -54,7 +59,7 @@
         .tab-container {
             display: flex;
             background-color: #F5F5F5;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 5px;
             margin-bottom: 25px;
             border: 1px solid #E0E0E0;
@@ -62,12 +67,12 @@
 
         .tab {
             flex: 1;
-            padding: 10px 0;
+            padding: 11px 0;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700; /* Đậm nét font mới */
             color: #757575;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 9px;
             transition: all 0.3s ease;
         }
 
@@ -88,7 +93,7 @@
             border-radius: 10px;
             margin-bottom: 20px;
             text-align: left;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         /* Cấu trúc các ô nhập liệu */
@@ -100,32 +105,32 @@
         .label {
             display: block;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800; /* Tăng độ đậm tiêu đề trường */
             color: #2E7D32; 
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 6px;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
         }
 
         /* Định dạng chung cho Ô nhập văn bản và Ô chọn thả xuống */
         .input-field, .select-field {
             width: 100%;
-            padding: 12px 15px;
+            padding: 13px 15px;
             font-size: 14px;
+            font-weight: 500;
             border: 1.5px solid #2E7D32; 
-            border-radius: 10px;
+            border-radius: 12px;
             color: #333333;
             background-color: #FFFFFF;
             outline: none;
             transition: all 0.3s;
         }
 
-        /* Ẩn cấu trúc hiển thị để dùng form riêng biệt */
         .hidden {
             display: none;
         }
 
-        /* Thiết kế mũi tên tùy chỉnh cho ô Select tiện cho phụ huynh bấm */
+        /* Thiết kế mũi tên tùy chỉnh cho ô Select */
         .select-field {
             appearance: none;
             -webkit-appearance: none;
@@ -134,6 +139,7 @@
             background-repeat: no-repeat;
             background-position: right 15px center;
             background-size: 16px;
+            cursor: pointer;
         }
 
         .select-field:disabled {
@@ -156,13 +162,13 @@
         /* Nút Đăng nhập / Vào cổng */
         .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             font-size: 15px;
             font-weight: 700;
             color: #FFFFFF;
             background-color: #4CAF50; 
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
@@ -171,17 +177,18 @@
 
         .submit-btn:hover {
             background-color: #388E3C;
+            transform: translateY(-1px);
         }
 
         .submit-btn:active {
             transform: scale(0.99);
         }
 
-        /* Gợi ý nhỏ bên dưới giúp phụ huynh dễ nhớ */
+        /* Gợi ý nhỏ bên dưới */
         .hint-text {
             font-size: 11px;
             color: #666666;
-            margin-top: 5px;
+            margin-top: 6px;
             display: block;
             font-style: italic;
         }
@@ -191,6 +198,7 @@
             font-size: 11px;
             color: #999999;
             margin-top: 30px;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -213,139 +221,4 @@
                 <label class="label">Bước 1: Chọn lớp của con</label>
                 <select id="student-class" class="select-field" onchange="loadStudentNames()" required>
                     <option value="" disabled selected>-- Bấm vào đây để chọn lớp --</option>
-                    <option value="C001">HAPPY</option>
-                    <option value="C002">LỚP 7</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="label">Bước 2: Chọn họ và tên của con</label>
-                <select id="student-name" class="select-field" disabled required>
-                    <option value="" disabled selected>-- Vui lòng chọn lớp trước --</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="label">Bước 3: Nhập mã PIN (Mật khẩu)</label>
-                <input type="password" id="student-pin" class="input-field" placeholder="Nhập 4 số mật khẩu" required maxlength="6">
-                <span class="hint-text">* Mật khẩu mặc định hệ thống là: 8888</span>
-            </div>
-
-            <button type="submit" class="submit-btn">Vào Làm Bài Tập</button>
-        </form>
-
-        <form id="form-staff" class="hidden" onsubmit="handleLogin(event, 'staff')">
-            <div class="form-group">
-                <label id="label-username" class="label">Tài khoản quản lý</label>
-                <input type="text" id="staff-user" placeholder="Nhập tên tài khoản hoặc email" required class="input-field">
-            </div>
-
-            <div class="form-group">
-                <label class="label">Mật khẩu hệ thống</label>
-                <input type="password" id="staff-pass" placeholder="Nhập mật khẩu bảo mật" required class="input-field">
-            </div>
-
-            <button type="submit" class="submit-btn">Xác Minh Hệ Thống</button>
-        </form>
-
-        <p class="footer-text">© 2026 Ms Thao English Portal. Bảo lưu mọi quyền.</p>
-    </div>
-
-    <script>
-        // Dữ liệu học sinh danh sách mẫu (Sau này liên kết trực tiếp bằng API Google Sheets)
-        const mockStudents = {
-            "C001": ["Vy", "Nguyễn Gia Bảo", "Minh Anh", "Thanh Trúc"], // Học sinh lớp HAPPY
-            "C002": ["Nam", "Diệp My", "Hoàng Long", "Tuấn Kiệt"]       // Học sinh lớp LỚP 7
-        };
-
-        let currentRole = 'student';
-
-        // 1. Hàm chuyển đổi giữa các Tab Phân Quyền
-        function switchRole(role) {
-            currentRole = role;
-            document.getElementById('error-box').style.display = 'none';
-            
-            // Đặt lại trạng thái mờ cho tất cả các tab
-            ['student', 'teacher', 'admin'].forEach(r => {
-                document.getElementById(`tab-${r}`).classList.remove('active');
-            });
-
-            // Kích hoạt sáng màu cho tab vừa bấm
-            document.getElementById(`tab-${role}`).classList.add('active');
-
-            // Ẩn/Hiện form tương ứng
-            if (role === 'student') {
-                document.getElementById('form-student').classList.remove('hidden');
-                document.getElementById('form-staff').classList.add('hidden');
-            } else {
-                document.getElementById('form-student').classList.add('hidden');
-                document.getElementById('form-staff').classList.remove('hidden');
-                
-                // Thay đổi nhãn chữ động phù hợp với Giáo viên hoặc Admin
-                const labelUser = document.getElementById('label-username');
-                if (role === 'teacher') {
-                    labelUser.innerText = "Tài khoản Giáo viên (Email)";
-                } else {
-                    labelUser.innerText = "Tài khoản Quản trị viên (Admin)";
-                }
-            }
-        }
-
-        // 2. Hàm tự động đổ danh sách Tên khi Phụ huynh chọn Lớp
-        function loadStudentNames() {
-            const classId = document.getElementById('student-class').value;
-            const nameSelect = document.getElementById('student-name');
-            
-            // Xóa sạch dữ liệu tên cũ
-            nameSelect.innerHTML = '<option value="" disabled selected>-- Bấm vào đây để chọn tên con --</option>';
-            
-            if (classId && mockStudents[classId]) {
-                nameSelect.disabled = false; // Mở khóa ô chọn tên
-                
-                // Duyệt qua mảng học sinh để tạo các ô lựa chọn mới
-                mockStudents[classId].forEach(name => {
-                    const option = document.createElement('option');
-                    option.value = name;
-                    option.innerText = name;
-                    nameSelect.appendChild(option);
-                });
-            } else {
-                nameSelect.disabled = true;
-            }
-        }
-
-        // 3. Hàm kiểm tra điều kiện Đăng nhập khi bấm Nút
-        function handleLogin(event, type) {
-            event.preventDefault(); // Ngăn trang bị tải lại
-            const errorBox = document.getElementById('error-box');
-            errorBox.style.display = 'none';
-
-            if (type === 'student') {
-                const pin = document.getElementById('student-pin').value;
-                const className = document.getElementById('student-class').options[document.getElementById('student-class').selectedIndex].text;
-                const studentName = document.getElementById('student-name').value;
-
-                // Kiểm tra mã PIN mặc định 8888
-                if (pin === '8888') {
-                    alert(`Đăng nhập thành công!\nHọc sinh: ${studentName}\nLớp học: ${className}\nHệ thống đang chuyển hướng con vào phòng làm bài thi...`);
-                    // Sau này nối hệ thống thật: window.location.href = `student-dashboard.html?name=${encodeURIComponent(studentName)}&class=${encodeURIComponent(className)}`;
-                } else {
-                    errorBox.innerText = "Mã PIN (Mật khẩu) chưa chính xác. Vui lòng nhập đúng số 8888 để đăng nhập!";
-                    errorBox.style.display = 'block';
-                }
-            } else {
-                const user = document.getElementById('staff-user').value;
-                const pass = document.getElementById('staff-pass').value;
-
-                // Kiểm tra mật mã thử nghiệm cho giáo viên và admin
-                if (pass === '8888') {
-                    alert(`Đăng nhập thành công với quyền: ${currentRole === 'teacher' ? 'GIÁO VIÊN' : 'QUẢN TRỊ VIÊN'}\nTài khoản: ${user}\nĐang mở bảng điều khiển...`);
-                } else {
-                    errorBox.innerText = "Mật khẩu hệ thống không đúng. Vui lòng thử lại!";
-                    errorBox.style.display = 'block';
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+                    <option value="C001">HAPPY</
