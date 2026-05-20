@@ -333,25 +333,34 @@
 
   function startExam(fileId) {
 
-    const ok = confirm(
-      "Con đã sẵn sàng làm bài chưa?"
-    );
+  console.log("FILE ID:", fileId);
 
-    if (!ok) return;
+  if (!fileId || fileId === "undefined") {
 
-    const examUrl =
-      `${SCRIPT_URL}` +
-      `?action=viewExam` +
-      `&fileId=${encodeURIComponent(fileId)}` +
-      `&studentId=${encodeURIComponent(studentId)}` +
-      `&studentName=${encodeURIComponent(studentName)}` +
-      `&classId=${encodeURIComponent(classId)}` +
-      `&className=${encodeURIComponent(className)}`;
+    alert("File đề thi chưa tồn tại!");
 
-    console.log(examUrl);
-
-    window.location.href = examUrl;
+    return;
   }
+
+  const ok = confirm(
+    "Con đã sẵn sàng làm bài chưa?"
+  );
+
+  if (!ok) return;
+
+  const examUrl =
+    `${SCRIPT_URL}` +
+    `?action=viewExam` +
+    `&fileId=${encodeURIComponent(fileId)}` +
+    `&studentId=${encodeURIComponent(studentId)}` +
+    `&studentName=${encodeURIComponent(studentName)}` +
+    `&classId=${encodeURIComponent(classId)}` +
+    `&className=${encodeURIComponent(className)}`;
+
+  console.log(examUrl);
+
+  window.location.href = examUrl;
+}
 
 
   // ==========================================
