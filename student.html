@@ -335,18 +335,14 @@
 
   console.log("FILE ID:", fileId);
 
-  if (!fileId || fileId === "undefined") {
+  console.log("SCRIPT_URL:", SCRIPT_URL);
 
-    alert("File đề thi chưa tồn tại!");
+  if (!fileId) {
+
+    alert("Thiếu fileId đề thi!");
 
     return;
   }
-
-  const ok = confirm(
-    "Con đã sẵn sàng làm bài chưa?"
-  );
-
-  if (!ok) return;
 
   const examUrl =
     `${SCRIPT_URL}` +
@@ -357,9 +353,11 @@
     `&classId=${encodeURIComponent(classId)}` +
     `&className=${encodeURIComponent(className)}`;
 
+  console.log("FINAL URL:");
   console.log(examUrl);
 
-  window.location.href = examUrl;
+  window.open(examUrl, "_blank");
+
 }
 
 
