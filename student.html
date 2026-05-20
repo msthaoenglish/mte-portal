@@ -309,24 +309,22 @@ const EXAM_URL =
 
   function startExam() {
 
-    const ok =
-      confirm("Con đã sẵn sàng làm bài chưa?");
+  const ok = confirm("Con đã sẵn sàng làm bài chưa?");
 
-    if (!ok) return;
+  if (!ok) return;
 
-    const examUrl =
-      `${EXAM_URL}` +
-      `&action=viewExam` +
-      `&studentId=${encodeURIComponent(studentId)}` +
-      `&studentName=${encodeURIComponent(studentName)}` +
-      `&classId=${encodeURIComponent(classId)}` +
-      `&className=${encodeURIComponent(className)}`;
+  const examUrl =
+    `${EXAM_URL}` +
+    `&action=viewExam` +
+    `&studentId=${encodeURIComponent(studentId)}` +
+    `&studentName=${encodeURIComponent(studentName)}` +
+    `&classId=${encodeURIComponent(classId)}` +
+    `&className=${encodeURIComponent(className)}`;
 
-    console.log(examUrl);
+  console.log(examUrl);
 
-    window.location.href = examUrl;
-  }
-
+  window.location.href = examUrl;
+}
 
   // ==========================================
   // ERROR UI
